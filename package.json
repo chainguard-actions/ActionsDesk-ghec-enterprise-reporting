@@ -1,0 +1,98 @@
+{
+  "name": "ghec-enterprise-reporting",
+  "description": "GitHub Action to compile a usage and billing information from a GitHub Enterprise Cloud account into a reporting issue.",
+  "version": "3.0.3",
+  "author": "GitHub Expert Services",
+  "type": "module",
+  "private": true,
+  "homepage": "https://github.com/ActionsDesk/ghec-enterprise-reporting",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ActionsDesk/ghec-enterprise-reporting"
+  },
+  "bugs": {
+    "url": "https://github.com/ActionsDesk/ghec-enterprise-reporting"
+  },
+  "keywords": [
+    "actions",
+    "node",
+    "typescript",
+    "github enterprise",
+    "github api"
+  ],
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "contributors": [
+    {
+      "name": "Nick Alteen",
+      "url": "https://github.com/ncalteen"
+    },
+    {
+      "name": "Froilán Irizarry Rivera",
+      "email": "1918027+froi@users.noreply.github.com"
+    },
+    {
+      "name": "Stefan Stölzle",
+      "email": "stoe@github.com",
+      "url": "https://github.com/stoe"
+    }
+  ],
+  "license": "MIT",
+  "scripts": {
+    "bundle": "npm run format:write && npm run package",
+    "ci-test": "NODE_OPTIONS=--experimental-vm-modules NODE_NO_WARNINGS=1 npx jest",
+    "coverage": "npx make-coverage-badge --output-path ./badges/coverage.svg",
+    "format:check": "npx prettier --check .",
+    "format:write": "npx prettier --write .",
+    "lint": "npx eslint .",
+    "local-action": "npx local-action . src/main.ts .env",
+    "package": "npx rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
+    "package:watch": "npm run package -- --watch",
+    "test": "NODE_OPTIONS=--experimental-vm-modules NODE_NO_WARNINGS=1 npx jest",
+    "all": "npm run format:write && npm run lint && npm run test && npm run coverage && npm run package"
+  },
+  "dependencies": {
+    "@actions/core": "^2.0.1",
+    "@actions/github": "^6.0.1",
+    "@octokit/plugin-enterprise-cloud": "^15.2.1",
+    "@octokit/plugin-paginate-rest": "^14.0.0",
+    "@octokit/plugin-throttling": "^11.0.3",
+    "@octokit/rest": "^22.0.1",
+    "eta": "^4.5.0",
+    "moment": "^2.30.1"
+  },
+  "devDependencies": {
+    "@eslint/compat": "^2.0.0",
+    "@github/local-action": "^6.0.2",
+    "@jest/globals": "^30.2.0",
+    "@rollup/plugin-commonjs": "^29.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-typescript": "^12.3.0",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^25.0.2",
+    "@typescript-eslint/eslint-plugin": "^8.49.0",
+    "@typescript-eslint/parser": "^8.49.0",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-github": "^6.0.0",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-jest": "^29.5.0",
+    "eslint-plugin-prettier": "^5.5.4",
+    "jest": "^30.2.0",
+    "make-coverage-badge": "^1.2.0",
+    "prettier": "^3.7.4",
+    "prettier-eslint": "^16.4.2",
+    "rollup": "^4.53.3",
+    "ts-jest": "^29.4.6",
+    "ts-jest-resolver": "^2.0.1",
+    "typescript": "^5.9.3"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "*"
+  }
+}
