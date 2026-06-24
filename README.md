@@ -8,6 +8,7 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 
 | Version | Tag | Upstream commit |
 |---------|-----|-----------------|
+| v3.1.0 | [`v3.1.0`](https://github.com/chainguard-actions/ActionsDesk-ghec-enterprise-reporting/tree/v3.1.0) | [`70e6b7b`](https://github.com/ActionsDesk/ghec-enterprise-reporting/commit/70e6b7ba8d30c1c271673d5cd906c1e002c18144) |
 | v3.1.1 | [`v3.1.1`](https://github.com/chainguard-actions/ActionsDesk-ghec-enterprise-reporting/tree/v3.1.1) | [`9c3fa2d`](https://github.com/ActionsDesk/ghec-enterprise-reporting/commit/9c3fa2db4ee13201f93b2c50501b44fb7c6e7f57) |
 
 ## Privacy
