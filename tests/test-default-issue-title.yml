@@ -1,4 +1,4 @@
-name: Test custom issue title input
+name: Test default issue title input
 on:
   workflow_dispatch:
 
@@ -15,7 +15,7 @@ jobs:
           enterprise_slug: my-enterprise
           enterprise_token: fake-enterprise-token-for-testing
           github_token: ${{ github.token }}
-          issue_title: "Custom Billing Report Title"
+          # issue_title is intentionally omitted to test the default value of "GHEC Usage Report"
 
       - name: Assert action failed at API stage not at input stage
         env:
@@ -23,10 +23,10 @@ jobs:
         run: |
           echo "outcome: $OUTCOME"
           # The action should fail because the enterprise token is invalid
-          # (API authentication failure), not because of a missing or invalid
-          # issue_title input — confirming the custom title was accepted
+          # (API authentication failure), not because of a missing issue_title.
+          # This confirms the default value "GHEC Usage Report" is applied correctly.
           if [ "$OUTCOME" != "failure" ]; then
             echo "FAIL: expected action to fail with invalid enterprise token, but outcome was: $OUTCOME"
             exit 1
           fi
-          echo "PASS: action accepted custom issue_title and failed at API stage as expected"
+          echo "PASS: action used default issue_title and failed at API stage as expected"
