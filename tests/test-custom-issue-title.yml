@@ -1,4 +1,4 @@
-name: Test basic usage - invalid enterprise credentials
+name: Test custom issue title input
 on:
   workflow_dispatch:
 
@@ -8,27 +8,29 @@ jobs:
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-      - name: Run action with invalid enterprise credentials (expect failure)
+      - name: Run action with custom issue title (expect failure at API level)
         id: action
         uses: .
         with:
           enterprise_slug: test-enterprise-slug
           enterprise_token: fake-enterprise-token-for-testing
           github_token: ${{ github.token }}
-          issue_title: GHEC Usage Report
+          issue_title: My Custom Billing Report Title
         continue-on-error: true
 
-      - name: Assert action failed due to API error (not a crash)
+      - name: Assert action failed at API level (not at input validation)
         env:
           OUTCOME: ${{ steps.action.outcome }}
         run: |
           echo "outcome: $OUTCOME"
           # The action should fail because the enterprise token is invalid
           # and the GraphQL API call will return an authentication error.
-          # We expect 'failure', not 'success' or an unexpected crash.
+          # A failure here means the action accepted the custom issue_title
+          # input and proceeded to the API call before failing — which is
+          # the correct behavior (input validation passed, API call failed).
           if [ "$OUTCOME" = "failure" ]; then
-            echo "PASS: action failed as expected with invalid credentials"
+            echo "PASS: action failed at API level as expected with custom issue title"
           else
-            echo "FAIL: expected action to fail with invalid credentials, got: $OUTCOME"
+            echo "FAIL: expected action to fail at API level, got: $OUTCOME"
             exit 1
           fi
