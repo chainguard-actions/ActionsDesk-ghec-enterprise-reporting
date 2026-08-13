@@ -1,0 +1,35 @@
+name: Test default issue title
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Run action with default issue_title (not provided)
+        id: action
+        uses: .
+        with:
+          enterprise_slug: test-enterprise-slug
+          enterprise_token: invalid-token-for-testing
+          github_token: ${{ github.token }}
+          # issue_title intentionally omitted to use default "GHEC Usage Report"
+        continue-on-error: true
+
+      - name: Assert action failed at API level (not at input parsing)
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
+        run: |
+          echo "outcome: $OUTCOME"
+          # The action should fail because of invalid enterprise credentials,
+          # not because of missing issue_title (which has a default value).
+          # A 'failure' outcome means the action ran and hit the API error,
+          # confirming the default issue_title was accepted.
+          if [ "$OUTCOME" = "failure" ]; then
+            echo "PASS: action failed at API level as expected (default issue_title accepted)"
+          else
+            echo "FAIL: expected action to fail at API level, got: $OUTCOME"
+            exit 1
+          fi

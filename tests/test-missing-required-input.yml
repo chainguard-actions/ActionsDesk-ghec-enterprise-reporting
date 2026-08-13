@@ -1,0 +1,31 @@
+name: Test missing required input
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Run action without enterprise_slug (required input)
+        id: action
+        uses: .
+        with:
+          enterprise_slug: ''
+          enterprise_token: some-token
+          github_token: ${{ github.token }}
+        continue-on-error: true
+
+      - name: Assert action failed due to missing required input
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
+        run: |
+          echo "outcome: $OUTCOME"
+          # The action should fail because enterprise_slug is required but empty.
+          if [ "$OUTCOME" = "failure" ]; then
+            echo "PASS: action failed as expected with missing required input"
+          else
+            echo "FAIL: expected action to fail with missing required input, got: $OUTCOME"
+            exit 1
+          fi
